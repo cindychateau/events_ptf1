@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.codingdojo.cynthia.models.Event;
 import com.codingdojo.cynthia.models.User;
 import com.codingdojo.cynthia.repositories.EventsRepository;
 import com.codingdojo.cynthia.repositories.MessagesRepository;
@@ -71,5 +72,12 @@ public class AppService {
 		}
 		
 	}
+	
+	//Recibe objeto evento y guarda en BD
+	public Event saveEvent(Event newEvent) {
+		return eventRepo.save(newEvent);
+	}
+	
+	
 	
 }
