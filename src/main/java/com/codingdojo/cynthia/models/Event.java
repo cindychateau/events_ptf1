@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -62,6 +63,9 @@ public class Event {
 			inverseJoinColumns = @JoinColumn(name="user_id")
 			)
 	private List<User> attendees; //Los asistentes al evento
+	
+	@OneToMany(mappedBy="event", fetch=FetchType.LAZY) //Un evento tiene muchos
+	private List<Message> eventMessages; //Los mensajes publicados al evento
 
 	public Event() {
 	}
@@ -146,6 +150,14 @@ public class Event {
 
 	public void setAttendees(List<User> attendees) {
 		this.attendees = attendees;
+	}
+
+	public List<Message> getEventMessages() {
+		return eventMessages;
+	}
+
+	public void setEventMessages(List<Message> eventMessages) {
+		this.eventMessages = eventMessages;
 	}
     
     

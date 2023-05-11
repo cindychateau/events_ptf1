@@ -73,6 +73,9 @@ public class User {
 			inverseJoinColumns = @JoinColumn(name="event_id")
 			)
 	private List<Event> eventsAttending; //Los eventos a los que el usuario va a asistir
+	
+	@OneToMany(mappedBy="author", fetch=FetchType.LAZY)
+	private List<Message> messages; //Los mensajes que el usuario publicó
 
 	public User() {
 	}
@@ -181,6 +184,14 @@ public class User {
 
 	public void setEventsAttending(List<Event> eventsAttending) {
 		this.eventsAttending = eventsAttending;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
 	}
     
     
