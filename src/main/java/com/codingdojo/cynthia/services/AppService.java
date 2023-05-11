@@ -54,4 +54,22 @@ public class AppService {
 		
 	}
 	
+	public User login(String email, String password) {
+		
+		//Buscar que el correo recibido esté en BD
+		User userExists = userRepo.findByEmail(email); //NULL o Objeto de User
+		if(userExists == null) {
+			return null;
+		}
+		
+		//Comparamos contraseñas
+		//BCrypt.checkpw(Contraseña NO encriptada, Contraseña encriptada) -> True o False
+		if(BCrypt.checkpw(password, userExists.getPassword())) {
+			return userExists;
+		} else {
+			return null;
+		}
+		
+	}
+	
 }
