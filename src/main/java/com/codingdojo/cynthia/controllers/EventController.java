@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -161,5 +162,31 @@ public class EventController {
 		
 		
 	}
+	
+	@DeleteMapping("/delete/{eventId}")
+	public String deleteEvent(@PathVariable("eventId") Long eventId, HttpSession session) {
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		User userInMethod = (User)session.getAttribute("userInSession");
+		
+		if(userInMethod == null) {
+			return "redirect:/";
+		}
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		
+		Event event = service.findEvent(eventId);
+		
+		//event == null -> Si el evento es null significa que NO existe ese evento (no hay evento con ese id)
+		//!event.getPlanner().getId().equals(userInMethod.getId())
+		//Si el id de la persona que planeó el evento es diferente al id del usuario en sesión
+		//Si cualquiera de las dos condiciones se cumple, regresa a dashboard y no borra nada
+		if(event == null || !event.getPlanner().getId().equals(userInMethod.getId())) {
+			return "redirect:/dashboard";
+		}
+		
+		service.deleteEvent(eventId);
+		
+		return "redirect:/dashboard";
+	}
+	
 	
 }

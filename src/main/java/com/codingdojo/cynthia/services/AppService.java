@@ -127,4 +127,9 @@ public class AppService {
 		return messageRepo.save(message);
 	}
 	
+	/*Eliminar evento*/
+	public void deleteEvent(Long id) {
+		eventRepo.deleteById(id);
+	}
+	
 }
