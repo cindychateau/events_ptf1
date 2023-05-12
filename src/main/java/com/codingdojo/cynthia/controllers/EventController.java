@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.codingdojo.cynthia.models.Event;
+import com.codingdojo.cynthia.models.Message;
 import com.codingdojo.cynthia.models.State;
 import com.codingdojo.cynthia.models.User;
 import com.codingdojo.cynthia.services.AppService;
@@ -111,6 +112,27 @@ public class EventController {
 		
 		service.removeEvent(userInMethod.getId(), eventId);
 		return "redirect:/dashboard";
+		
+	}
+	
+	@GetMapping("/event/{eventId}")
+	public String show_event(@PathVariable("eventId") Long eventId,
+							 HttpSession session,
+							//Agregamos modelattribute porque aquí mismo hay un formulario de Mensaje
+							 @ModelAttribute("message") Message message,
+							 Model model) {
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		User userInMethod = (User)session.getAttribute("userInSession");
+		
+		if(userInMethod == null) {
+			return "redirect:/";
+		}
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		
+		Event event = service.findEvent(eventId); //Enviamos el evento en base a su id
+		model.addAttribute("event", event);
+		
+		return "show.jsp";
 		
 	}
 	

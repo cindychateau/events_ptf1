@@ -32,7 +32,7 @@
 				<tbody>
 					<c:forEach items="${eventsMyState}" var="event">
 						<tr>
-							<td>${event.eventName}</td>
+							<td><a href="/event/${event.id}">${event.eventName}</a></td>
 							<td>${event.eventDate}</td>
 							<td>${event.eventLocation}</td>
 							<td>${event.eventState}</td>
@@ -81,7 +81,7 @@
 				<tbody>
 					<c:forEach items="${eventsOtherState}" var="event">
 						<tr>
-							<td>${event.eventName}</td>
+							<td><a href="/event/${event.id}">${event.eventName}</a></td>
 							<td>${event.eventDate}</td>
 							<td>${event.eventLocation}</td>
 							<td>${event.eventState}</td>
