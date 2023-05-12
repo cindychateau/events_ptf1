@@ -136,4 +136,30 @@ public class EventController {
 		
 	}
 	
+	@PostMapping("/message")
+	public String message(@Valid @ModelAttribute("message") Message message,
+						  BindingResult result,
+						  HttpSession session,
+						  Model model) {
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		User userInMethod = (User)session.getAttribute("userInSession");
+		
+		if(userInMethod == null) {
+			return "redirect:/";
+		}
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		
+		if(result.hasErrors()) {
+			model.addAttribute("event", message.getEvent());
+			return "show.jsp";
+		} else {
+			service.saveMessage(message);
+			//Regresamos ala misma pantalla, por lo tanto quiero enviar en la url el id del evento
+			//Como recibo objeto message, mi objeto message tiene un evento, obtengo el id de este
+			return "redirect:/event/"+message.getEvent().getId();
+		}
+		
+		
+	}
+	
 }

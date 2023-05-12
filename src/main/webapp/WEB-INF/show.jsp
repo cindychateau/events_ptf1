@@ -37,6 +37,7 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!-- Recorremos todos los usuarios que van a ir al evento -->
 						<c:forEach items="${event.attendees}" var="user">
 							<tr>
 								<td>${user.firstName}</td>
@@ -49,6 +50,7 @@
 			<div class="col">
 				<h2>Message Wall</h2>
 				<div>
+					<!-- Recorremos todos los mensajes que publicaron al evento -->
 					<c:forEach items="${event.eventMessages}" var="message">
 						<p>
 							${message.author.firstName} says: ${message.content}
