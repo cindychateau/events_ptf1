@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.codingdojo.cynthia.models.Event;
@@ -79,6 +80,37 @@ public class EventController {
 			return "redirect:/dashboard";
 		}
 		
+		
+	}
+	
+	@GetMapping("/join/{eventId}")
+	public String join(@PathVariable("eventId") Long eventId,
+					   HttpSession session) {
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		User userInMethod = (User)session.getAttribute("userInSession");
+		
+		if(userInMethod == null) {
+			return "redirect:/";
+		}
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		
+		service.joinEvent(userInMethod.getId(), eventId);
+		return "redirect:/dashboard";
+	}
+	
+	@GetMapping("/remove/{eventId}")
+	public String remove(@PathVariable("eventId") Long eventId,
+						 HttpSession session) {
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		User userInMethod = (User)session.getAttribute("userInSession");
+		
+		if(userInMethod == null) {
+			return "redirect:/";
+		}
+		/*====Revisa que mi usuario haya iniciado sesión====*/
+		
+		service.removeEvent(userInMethod.getId(), eventId);
+		return "redirect:/dashboard";
 		
 	}
 	

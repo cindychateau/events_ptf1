@@ -92,5 +92,33 @@ public class AppService {
 		return eventRepo.findByEventStateIsNot(state);
 	}
 	
+	public Event findEvent(Long id) {
+		return eventRepo.findById(id).orElse(null);
+	}
+	
+	/*
+	 * userId = 1
+	 * eventId = 2
+	 * myUser = Obj(Elena) ->firstName, lastName.... eventsAttending
+	 * 
+	 * eventsAttending = [Obj(Java Party)] + myEvent
+	 * eventsAttending = [Obj(JavaParty), Obj(Examen Java)]
+	 */
+	public void joinEvent(Long userId, Long eventId) {
+		User myUser = findUser(userId);  //OBjeto usuario
+		Event myEvent = findEvent(eventId); //Objeto evento
+		
+		//Me obtiene la lista de eventos que va a ir mi usuario y le agrega el objeto evento que recibo
+		myUser.getEventsAttending().add(myEvent);
+		userRepo.save(myUser);
+	}
+	
+	public void removeEvent(Long userId, Long eventId) {
+		User myUser = findUser(userId);  //OBjeto usuario
+		Event myEvent = findEvent(eventId); //Objeto evento
+		
+		myUser.getEventsAttending().remove(myEvent);
+		userRepo.save(myUser);
+	}
 	
 }
