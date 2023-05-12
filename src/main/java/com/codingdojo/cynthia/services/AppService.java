@@ -1,5 +1,7 @@
 package com.codingdojo.cynthia.services;
 
+import java.util.List;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,6 +80,17 @@ public class AppService {
 		return eventRepo.save(newEvent);
 	}
 	
+	public User findUser(Long id) {
+		return userRepo.findById(id).orElse(null);
+	}
+	
+	public List<Event> eventsInMyState(String state){
+		return eventRepo.findByEventState(state);
+	}
+	
+	public List<Event> eventsOther(String state) {
+		return eventRepo.findByEventStateIsNot(state);
+	}
 	
 	
 }

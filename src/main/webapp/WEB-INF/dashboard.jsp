@@ -18,9 +18,101 @@
 		</nav>
 		<div class="row">
 			<h2>Events in your state</h2>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Event</th>
+						<th>Date</th>
+						<th>Location</th>
+						<th>State</th>
+						<th>Planner</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${eventsMyState}" var="event">
+						<tr>
+							<td>${event.eventName}</td>
+							<td>${event.eventDate}</td>
+							<td>${event.eventLocation}</td>
+							<td>${event.eventState}</td>
+							<td>${event.planner.firstName}</td>
+							<td>
+								<!-- Botones de editar y borrar si son mis eventos -->
+								<c:if test="${event.planner.id == user.id}">
+									<a href="/edit/${event.id}" class="btn btn-warning">Edit</a>
+									<form action="/delete/${event.id}" method="post">
+										<input type="hidden" name="_method" value="DELETE">
+										<input type="submit" value="Delete" class="btn btn-danger" >
+									</form>
+								</c:if>
+								
+								<!-- Botones para unirnos al evento -->
+								<c:if test="${event.planner.id != user.id}">
+									<c:choose>
+										<c:when test="${event.attendees.contains(user)}">
+											<span>Joining - </span>
+											<a href="/remove/${event.id}" class="btn btn-danger">Cancel</a>
+										</c:when>
+										<c:otherwise>
+											<a href="/join/${event.id}" class="btn btn-primary">Join</a>
+										</c:otherwise>
+									</c:choose>
+								</c:if>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 		</div>
 		<div class="row">
 			<h2>Events in other states</h2>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Event</th>
+						<th>Date</th>
+						<th>Location</th>
+						<th>State</th>
+						<th>Planner</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${eventsOtherState}" var="event">
+						<tr>
+							<td>${event.eventName}</td>
+							<td>${event.eventDate}</td>
+							<td>${event.eventLocation}</td>
+							<td>${event.eventState}</td>
+							<td>${event.planner.firstName}</td>
+							<td>
+								<!-- Botones de editar y borrar si son mis eventos -->
+								<c:if test="${event.planner.id == user.id}">
+									<a href="/edit/${event.id}" class="btn btn-warning">Edit</a>
+									<form action="/delete/${event.id}" method="post">
+										<input type="hidden" name="_method" value="DELETE">
+										<input type="submit" value="Delete" class="btn btn-danger" >
+									</form>
+								</c:if>
+								
+								<!-- Botones para unirnos al evento -->
+								<c:if test="${event.planner.id != user.id}">
+									<c:choose>
+										<c:when test="${event.attendees.contains(user)}">
+											<span>Joining - </span>
+											<a href="/remove/${event.id}" class="btn btn-danger">Cancel</a>
+										</c:when>
+										<c:otherwise>
+											<a href="/join/${event.id}" class="btn btn-primary">Join</a>
+										</c:otherwise>
+									</c:choose>
+								</c:if>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 		</div>
 		<div class="row">
 			<h2>Create Event</h2>

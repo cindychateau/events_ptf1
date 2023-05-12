@@ -1,5 +1,7 @@
 package com.codingdojo.cynthia.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -35,11 +37,18 @@ public class EventController {
 		}
 		/*Revisa que mi usuario haya iniciado sesión*/
 		
-		//Pendiente enviar el usuario
+		//enviar el usuario
+		User myUser = service.findUser(userInMethod.getId());
+		model.addAttribute("user", myUser);
 		
-		//Pendiente enviar la lista de eventos en mi estado
+		//enviar la lista de eventos en mi estado
+		String myState = userInMethod.getState(); //Obteniendo el estado del usuario en sesion
+		List<Event> eventsMyState = service.eventsInMyState(myState);
+		model.addAttribute("eventsMyState", eventsMyState);
 		
-		//Pendiente enviar la lista de eventos en otros estados
+		//enviar la lista de eventos en otros estados
+		List<Event> eventsOtherState = service.eventsOther(myState);
+		model.addAttribute("eventsOtherState", eventsOtherState);
 		
 		//model.addAttribute("states", State.States);
 		model.addAttribute("states", State.States);
